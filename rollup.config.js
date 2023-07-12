@@ -15,7 +15,21 @@ const stripWindiCSSImport = () => {
   };
 };
 
-export default withSolid({
-  input: "src/index.tsx",
-  plugins: [...WindiCSS(), css({ output: "style.css" }), stripWindiCSSImport()],
-});
+export default [
+  withSolid({
+    input: "src/index.tsx",
+    output: { dir: "dist/esm" },
+    plugins: [...WindiCSS(), css({ output: "style.css" }), stripWindiCSSImport()],
+    solidOptions: {
+      generate: "dom",
+    },
+  }),
+  withSolid({
+    input: "src/index.tsx",
+    output: { dir: "dist/server" },
+    plugins: [...WindiCSS(), css({ output: "style.css" }), stripWindiCSSImport()],
+    solidOptions: {
+      generate: "ssr",
+    },
+  }),
+];
